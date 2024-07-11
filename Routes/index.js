@@ -11,7 +11,7 @@ const {getPosts} = require('../Controllers/getPosts');
 //     res.send('hello peeps')
 // });
 
-router.post('/', getPosts)
+router.get('/', getPosts)
 
 
 module.exports = router;

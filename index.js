@@ -15,7 +15,7 @@ const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use('/', route);
+app.use('/api/v1/', route);
 
 // middleware for route level
 // const logger = (req, res, next) => {
