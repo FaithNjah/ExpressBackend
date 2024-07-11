@@ -8,7 +8,17 @@ const logger = require('./Middlewares/logger');
 const { fileURLToPath } = require("url");
 const path = require('path');
 
+// mongodb
+const { connectToDb, getDb} = require("./db");
 
+// connection
+let db
+connectToDb((err)=>{
+    if(!err){
+        app.listen(port, console.log('works smoothly'));
+    }
+    db = getDb()
+})
 
 
 const app = express();
@@ -101,4 +111,4 @@ app.get('/about', (req, res)=>{
 app.use(express.json())
 
 
-app.listen(port, console.log('works smoothly'))
+// app.listen(port, console.log('works smoothly'))
