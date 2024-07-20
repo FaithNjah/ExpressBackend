@@ -9,19 +9,35 @@ const { fileURLToPath } = require("url");
 const path = require('path');
 
 // mongodb
-const { connectToDb, getDb} = require("./db");
+const { connectToDatabase} = require("./db");
 
-// connection
-let db
-connectToDb((err)=>{
-    if(!err){
-        app.listen(port, console.log('works smoothly'));
-    }
-    db = getDb()
-})
 
 
 const app = express();
+
+
+app.listen(port, () => {
+    connectToDatabase().then(() => {
+        console.log(
+            `Server is running on port ${port} and on ${app.get("env")} grounds`
+        );
+    });
+});
+
+// mongodb
+app.get('/Books', (req, res) =>{
+    db.collections('Books')
+    .find()
+    .sort({author:1})
+    .forEach(book => Books.push(book))
+    .then(()=>{
+        res.status(200).json((books))
+    })
+    .catch((err)=>{
+        res.status(500).json({error: 'did not fetch'})
+    })
+    res.json({msg: 'welcome'})
+})
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
