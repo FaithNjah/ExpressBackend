@@ -7,6 +7,8 @@ const route = require( './Routes/index');
 const logger = require('./Middlewares/logger');
 const { fileURLToPath } = require("url");
 const path = require('path');
+const { Dog } = require("./model");
+const cors = require("cors")
 
 // mongodb
 const { connectToDatabase} = require("./db");
@@ -16,29 +18,23 @@ const { connectToDatabase} = require("./db");
 const app = express();
 
 
-app.listen(port, () => {
-    connectToDatabase().then(() => {
-        console.log(
-            `Server is running on port ${port} and on ${app.get("env")} grounds`
-        );
-    });
-});
 
 // mongodb
-app.get('/Books', (req, res) =>{
-    db.collections('Books')
-    .find()
-    .sort({author:1})
-    .forEach(book => Books.push(book))
-    .then(()=>{
-        res.status(200).json((books))
-    })
-    .catch((err)=>{
-        res.status(500).json({error: 'did not fetch'})
-    })
-    res.json({msg: 'welcome'})
-})
+// app.get('/Books', (req, res) =>{
+//     db.collections('Books')
+//     .find()
+//     .sort({author:1})
+//     .forEach(book => Books.push(book))
+//     .then(()=>{
+//         res.status(200).json((books))
+//     })
+//     .catch((err)=>{
+//         res.status(500).json({error: 'did not fetch'})
+//     })
+//     res.json({msg: 'welcome'})
+// })
 
+app.use(cors({ exposedHeaders: "x-auth-token" }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use('/api/v1/', route);
@@ -50,6 +46,8 @@ app.use('/api/v1/', route);
 // }
 // using logger file at file/app leve;
 app.use(logger);
+
+app.use(express.json());
 
 // 
 const fileName = __filename;
@@ -124,7 +122,25 @@ app.get('/about', (req, res)=>{
     res.sendFile(path.join(__dirname, 'Public', 'About.html'))
 })
 
-app.use(express.json())
 
 
-// app.listen(port, console.log('works smoothly'))
+app.get("/dogs", async (req, res) => {
+    const allDogs = await Dog.find();
+    return res.status(200).json(allDogs);
+  });
+
+  app.post("/dogs", async (req, res) => {
+    console.log(req.body)
+    const newDog = new Dog({ ...req.body });
+    const insertedDog = await newDog.save();
+    return res.status(201).json(insertedDog);
+  });
+
+
+app.listen(port, () => {
+    connectToDatabase().then(() => {
+        console.log(
+            `Server is running on port ${port} and on ${app.get("env")} grounds`
+        );
+    });
+});
