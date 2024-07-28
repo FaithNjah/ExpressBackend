@@ -62,57 +62,12 @@ console.log(dirName);
  app.use(express.static(path.join(__dirname, 'Public')))
 
 
-// exporing get, post and put on same file
-// const posts = [
-//     {
-//         id:1,
-//         title: 'one',
-//         message: 'this is one'
-//     },
-
-//     {
-//         id:2,
-//         title: 'two',
-//         message: 'this is two'
-//     }
-// ]
-
-// app.get('/', (req, res)=>{
-//     // const id = parseInt(req.params.id);
-//     // res.status(200).json(posts.filter((post) => post.id === id));
-
-//     res.send('hello peeps')
-// });
-
-// app.get('/:id', (req, res)=>{
-//     const id = parseInt(req.params.id);
-//     res.status(200).json(posts.filter((post) => post.id === id))
-// });
-
 // app.put('/put', (req, res)=>{
 //     res.send( 'recieved');
 //     console.log(req.body)
 // });
 
-// app.post('/api/',(req, res) => {
-//     const newPost = {
-//         id: posts.length + 1,
-//         title: req.body.title,
-//         message:req.body.message
-//     }
 
-//     if(!newPost.title || !newPost.message){
-//         return res.status(400).json({msg: 'fill in the necessary details'})
-//     }
-
-//     posts.push(newPost);
-//     res.status(201).json(newPost);
-
-//     // This works
-//     // const requestData = req.body;
-//     // console.log(requestData);
-//     // res.status(201).json('successfully')
-// });
 
 app.get('/', (req, res)=>{
     res.sendFile(path.join(__dirname, 'Public', 'index.html'))
