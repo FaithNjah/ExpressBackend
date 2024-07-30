@@ -44,7 +44,7 @@ app.use('/api/v1/', route);
 //     console.log(`${req.method} ${req.protocol}://${req.get('host')} ${req.originalUrl}`);
 //     next();
 // }
-// using logger file at file/app leve;
+// using logger file at file/app level;
 app.use(logger);
 
 app.use(express.json());
